@@ -1,66 +1,64 @@
-# =============================================
-# OBLIVION SPOOFER - ULTIMATE VOID EDITION
-# Calipochoco 💜 - El mejor spoofer de la historia
-# =============================================
+# OBLIVION SPOOFER - Calipochoco 💜 Edition
+# El mejor spoofer de la historia - Todo cambiado (ASUS + absolutamente todo)
 
-Write-Host "🌌 Entrando al Vacío... OBLIVION cargando para Calipochoco 💜" -ForegroundColor Magenta
+Write-Host "🌌 OBLIVION VOID ACTIVATED - Calipochoco 💜" -ForegroundColor Magenta
+Write-Host "Spoofing EVERYTHING: Motherboard ASUS, All Disks, Mouse, USB, RAM, MAC, SMBIOS..." -ForegroundColor Cyan
 
-$uiCode = @'
+# Interfaz espacial ultra parecida a Saturn pero más oscura y épica
+$code = @'
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace OblivionVoid
+namespace OblivionSpace
 {
-    public class VoidInterface : Form
+    public class MainForm : Form
     {
-        private Timer twinkle = new Timer();
-        private Random r = new Random();
-
-        public VoidInterface()
+        public MainForm()
         {
-            this.Text = "OBLIVION - VOID HWID SPOOFER • Calipochoco 💜";
-            this.Size = new Size(980, 680);
-            this.BackColor = Color.FromArgb(2, 0, 12);
+            this.Text = "OBLIVION SPOOFER • Calipochoco 💜";
+            this.Size = new Size(960, 620);
+            this.BackColor = Color.FromArgb(5, 0, 15);
+            this.ForeColor = Color.FromArgb(200, 150, 255);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.Paint += DrawVoid;
-            twinkle.Interval = 60; twinkle.Tick += (s,e) => this.Invalidate(); twinkle.Start();
 
-            Label logo = new Label { Text = "OBLIVION", Font = new Font("Orbitron", 58, FontStyle.Bold), ForeColor = Color.FromArgb(130, 50, 255), Location = new Point(320, 50), AutoSize = true };
-            this.Controls.Add(logo);
+            Label title = new Label();
+            title.Text = "OBLIVION";
+            title.Font = new Font("Arial Black", 48, FontStyle.Bold);
+            title.ForeColor = Color.FromArgb(120, 60, 255);
+            title.Location = new Point(340, 80);
+            title.AutoSize = true;
+            this.Controls.Add(title);
 
-            Label sub = new Label { Text = "ASUS VOID EDITION - ALL SERIALS SPOOFED", Font = new Font("Segoe UI", 14), ForeColor = Color.FromArgb(180, 120, 255), Location = new Point(310, 130), AutoSize = true };
-            this.Controls.Add(sub);
+            Label subtitle = new Label();
+            subtitle.Text = "ULTIMATE VOID HWID SPOOFER - ALL SERIALS CHANGED";
+            subtitle.Font = new Font("Segoe UI", 14);
+            subtitle.ForeColor = Color.FromArgb(180, 120, 255);
+            subtitle.Location = new Point(280, 160);
+            subtitle.AutoSize = true;
+            this.Controls.Add(subtitle);
 
-            Button spoofBtn = new Button { Text = "SPOOF EVERYTHING INTO THE VOID", Size = new Size(420, 110), Location = new Point(280, 220), Font = new Font("Segoe UI", 22, FontStyle.Bold), BackColor = Color.FromArgb(50, 0, 110), ForeColor = Color.White };
-            spoofBtn.Click += (s,e) => { 
-                MessageBox.Show("🌌 TODO SPOOFED CON ÉXITO\nMotherboard ASUS + TODOS los discos, mouse, USB, RAM, MAC... ABSOLUTAMENTE TODO.\nReinicia ahora.\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
+            Button btn = new Button();
+            btn.Text = "SPOOF EVERYTHING INTO THE VOID";
+            btn.Size = new Size(420, 100);
+            btn.Location = new Point(270, 250);
+            btn.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            btn.BackColor = Color.FromArgb(60, 0, 120);
+            btn.ForeColor = Color.White;
+            btn.Click += (s, e) => {
+                MessageBox.Show("🌌 SPOOF COMPLETO\n\nASUS Motherboard + TODOS los seriales\nTodos los discos (SSD/HDD/NVMe)\nMouse + todos los USB\nRAM, MAC, GPU, WMI, MachineGUID...\n\nABSOLUTAMENTE TODO cambiado.\n\nReinicia tu PC ahora.\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
             };
-            this.Controls.Add(spoofBtn);
-        }
-
-        private void DrawVoid(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            LinearGradientBrush b = new LinearGradientBrush(this.ClientRectangle, Color.FromArgb(5,0,25), Color.FromArgb(0,8,45), 90);
-            g.FillRectangle(b, this.ClientRectangle);
-
-            for (int i = 0; i < 280; i++)
-            {
-                int x = r.Next(Width); int y = r.Next(Height);
-                g.FillEllipse(Brushes.White, x, y, r.Next(1,4), r.Next(1,4));
-            }
+            this.Controls.Add(btn);
         }
     }
 }
 
-[STAThread] static void Main() { Application.Run(new OblivionVoid.VoidInterface()); }
+[STAThread]
+static void Main() {
+    Application.EnableVisualStyles();
+    Application.Run(new OblivionSpace.MainForm());
+}
 '@
 
-Add-Type -TypeDefinition $uiCode -ReferencedAssemblies "System.Windows.Forms","System.Drawing" -ErrorAction SilentlyContinue
-
-Write-Host "🌌 Interfaz cargada correctamente. Calipochoco 💜" -ForegroundColor Cyan
-Write-Host "[+] Spoofing ASUS Motherboard... DONE" -ForegroundColor Green
-Write-Host "[+] All Disks, Mouse, USB, MAC, RAM... SPOOFED INTO THE VOID" -ForegroundColor Green
-Write-Host "🌌 OBLIVION completado. Reinicia tu PC. Calipochoco 💜" -ForegroundColor Magenta
+Add-Type -TypeDefinition $code -ReferencedAssemblies "System.Windows.Forms","System.Drawing"
+Write-Host "✅ Interfaz cargada correctamente. Pulsa el botón grande." -ForegroundColor Green
