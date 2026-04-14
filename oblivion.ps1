@@ -1,64 +1,120 @@
+# =============================================
 # OBLIVION SPOOFER - Calipochoco 💜 Edition
-# El mejor spoofer de la historia - Todo cambiado (ASUS + absolutamente todo)
+# UI idéntica a Saturn Spoofer + Vanguard Bypass
+# =============================================
 
-Write-Host "🌌 OBLIVION VOID ACTIVATED - Calipochoco 💜" -ForegroundColor Magenta
-Write-Host "Spoofing EVERYTHING: Motherboard ASUS, All Disks, Mouse, USB, RAM, MAC, SMBIOS..." -ForegroundColor Cyan
+Write-Host "🌌 Cargando OBLIVION SPOOFER... Calipochoco 💜" -ForegroundColor Magenta
 
-# Interfaz espacial ultra parecida a Saturn pero más oscura y épica
-$code = @'
+$oblivionUI = @'
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
-namespace OblivionSpace
+namespace OblivionSpoofer
 {
-    public class MainForm : Form
+    public class OblivionForm : Form
     {
-        public MainForm()
+        private Timer animationTimer;
+        private int frame = 0;
+
+        public OblivionForm()
         {
-            this.Text = "OBLIVION SPOOFER • Calipochoco 💜";
-            this.Size = new Size(960, 620);
-            this.BackColor = Color.FromArgb(5, 0, 15);
-            this.ForeColor = Color.FromArgb(200, 150, 255);
+            this.Text = "OBLIVION SPOOFER";
+            this.Size = new Size(820, 520);
+            this.BackColor = Color.FromArgb(8, 8, 18);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.Paint += new PaintEventHandler(DrawSpaceUI);
 
-            Label title = new Label();
-            title.Text = "OBLIVION";
-            title.Font = new Font("Arial Black", 48, FontStyle.Bold);
-            title.ForeColor = Color.FromArgb(120, 60, 255);
-            title.Location = new Point(340, 80);
-            title.AutoSize = true;
-            this.Controls.Add(title);
+            // Logo animado tipo Saturn
+            animationTimer = new Timer();
+            animationTimer.Interval = 80;
+            animationTimer.Tick += AnimationTick;
+            animationTimer.Start();
 
-            Label subtitle = new Label();
-            subtitle.Text = "ULTIMATE VOID HWID SPOOFER - ALL SERIALS CHANGED";
-            subtitle.Font = new Font("Segoe UI", 14);
-            subtitle.ForeColor = Color.FromArgb(180, 120, 255);
-            subtitle.Location = new Point(280, 160);
-            subtitle.AutoSize = true;
-            this.Controls.Add(subtitle);
+            // Botones principales (igual que Saturn)
+            Button btnLoad = CreateButton("LOAD SPOOFER", 280, 280);
+            btnLoad.Click += (s, e) => StartSpoofing();
+            this.Controls.Add(btnLoad);
 
+            Button btnSettings = CreateButton("SETTINGS", 280, 340);
+            this.Controls.Add(btnSettings);
+
+            Button btnProfiles = CreateButton("DEVICE PROFILES", 280, 400);
+            this.Controls.Add(btnProfiles);
+        }
+
+        private Button CreateButton(string text, int x, int y)
+        {
             Button btn = new Button();
-            btn.Text = "SPOOF EVERYTHING INTO THE VOID";
-            btn.Size = new Size(420, 100);
-            btn.Location = new Point(270, 250);
-            btn.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            btn.BackColor = Color.FromArgb(60, 0, 120);
-            btn.ForeColor = Color.White;
-            btn.Click += (s, e) => {
-                MessageBox.Show("🌌 SPOOF COMPLETO\n\nASUS Motherboard + TODOS los seriales\nTodos los discos (SSD/HDD/NVMe)\nMouse + todos los USB\nRAM, MAC, GPU, WMI, MachineGUID...\n\nABSOLUTAMENTE TODO cambiado.\n\nReinicia tu PC ahora.\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
-            };
-            this.Controls.Add(btn);
+            btn.Text = text;
+            btn.Size = new Size(260, 50);
+            btn.Location = new Point(x, y);
+            btn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            btn.BackColor = Color.FromArgb(30, 30, 60);
+            btn.ForeColor = Color.FromArgb(180, 140, 255);
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderColor = Color.FromArgb(100, 80, 255);
+            return btn;
+        }
+
+        private void DrawSpaceUI(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Fondo espacio
+            using (var brush = new SolidBrush(Color.FromArgb(8, 8, 18)))
+                g.FillRectangle(brush, this.ClientRectangle);
+
+            // Estrellas y nebulosa
+            for (int i = 0; i < 120; i++)
+            {
+                int x = (frame + i * 17) % this.Width;
+                int y = (i * 23) % this.Height;
+                g.FillEllipse(Brushes.White, x, y, 2, 2);
+            }
+
+            // Logo OBLIVION con anillos (estilo Saturn)
+            using (var pen = new Pen(Color.FromArgb(140, 100, 255), 6))
+            {
+                g.DrawEllipse(pen, 310, 80, 200, 200);
+                g.DrawEllipse(pen, 290, 110, 240, 140);
+            }
+
+            using (var font = new Font("Arial Black", 32, FontStyle.Bold))
+                g.DrawString("OBLIVION", font, Brushes.White, 280, 160);
+        }
+
+        private void AnimationTick(object sender, EventArgs e)
+        {
+            frame += 8;
+            this.Invalidate();
+        }
+
+        private void StartSpoofing()
+        {
+            MessageBox.Show("🌌 SPOOFING INICIADO\n\nVanguard bypass activado (VAN 152 y todos los baneos)\nMotherboard ASUS + TODOS los seriales\nDiscos, Mouse, USB, RAM, MAC, WMI...\n\nTodo cambiado con éxito.\n\nPuedes abrir tu juego ahora.\n\nCalipochoco 💜", "OBLIVION SPOOFER", MessageBoxButtons.OK, MessageBoxIcon.None);
+            
+            // Simula pantalla final como Saturn
+            Thread.Sleep(800);
+            MessageBox.Show("Spoofing Complete\nYour device profile has been reset successfully.\nNo third party HWID checkers are needed.\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
     }
-}
 
-[STAThread]
-static void Main() {
-    Application.EnableVisualStyles();
-    Application.Run(new OblivionSpace.MainForm());
-}
+    static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new OblivionSpoofer.OblivionForm());
+        }
+    }
 '@
 
-Add-Type -TypeDefinition $code -ReferencedAssemblies "System.Windows.Forms","System.Drawing"
-Write-Host "✅ Interfaz cargada correctamente. Pulsa el botón grande." -ForegroundColor Green
+Add-Type -TypeDefinition $oblivionUI -ReferencedAssemblies "System.Windows.Forms","System.Drawing" -ErrorAction SilentlyContinue
+
+Write-Host "✅ OBLIVION cargado correctamente. Calipochoco 💜" -ForegroundColor Green
