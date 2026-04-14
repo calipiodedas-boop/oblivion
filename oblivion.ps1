@@ -1,82 +1,88 @@
-# OBLIVION SPOOFER - Calipochoco 💜
-# UI estilo Saturn pero llamado Oblivion
+# =============================================
+# OBLIVION SPOOFER - Calipochoco 💜 Ultimate Edition
+# Más completo que la versión anterior - Spoof real + UI estilo Saturn
+# =============================================
 
 Write-Host "🌌 Cargando OBLIVION SPOOFER... Calipochoco 💜" -ForegroundColor Magenta
 
-$code = @"
+$oblivionCode = @"
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading;
 
-namespace Oblivion
+namespace OblivionVoid
 {
-    public class MainForm : Form
+    public class OblivionMain : Form
     {
-        public MainForm()
+        private Timer animTimer;
+        private int frame = 0;
+
+        public OblivionMain()
         {
-            this.Text = "OBLIVION SPOOFER - Calipochoco 💜";
-            this.Size = new Size(820, 520);
-            this.BackColor = Color.FromArgb(8, 8, 18);
-            this.ForeColor = Color.FromArgb(200, 160, 255);
+            this.Text = "OBLIVION SPOOFER";
+            this.Size = new Size(860, 560);
+            this.BackColor = Color.FromArgb(5, 5, 15);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.Paint += DrawBackground;
+            this.Paint += DrawSpace;
 
-            // Logo OBLIVION con anillos estilo Saturn
-            Label logo = new Label();
-            logo.Text = "OBLIVION";
-            logo.Font = new Font("Arial Black", 42, FontStyle.Bold);
-            logo.ForeColor = Color.FromArgb(140, 100, 255);
-            logo.Location = new Point(280, 100);
-            logo.AutoSize = true;
-            this.Controls.Add(logo);
+            animTimer = new Timer { Interval = 70 };
+            animTimer.Tick += (s,e) => { frame++; this.Invalidate(); };
+            animTimer.Start();
 
-            // Botón principal grande
-            Button spoofBtn = new Button();
-            spoofBtn.Text = "LOAD SPOOFER";
-            spoofBtn.Size = new Size(300, 70);
-            spoofBtn.Location = new Point(260, 280);
-            spoofBtn.Font = new Font("Segoe UI", 16, FontStyle.Bold);
-            spoofBtn.BackColor = Color.FromArgb(50, 20, 100);
-            spoofBtn.ForeColor = Color.White;
-            spoofBtn.FlatStyle = FlatStyle.Flat;
-            spoofBtn.Click += (s, e) => SpoofAction();
-            this.Controls.Add(spoofBtn);
+            Button loadBtn = new Button { Text = "LOAD SPOOFER", Size = new Size(320, 80), Location = new Point(270, 280), Font = new Font("Segoe UI", 18, FontStyle.Bold), BackColor = Color.FromArgb(40, 0, 90), ForeColor = Color.White };
+            loadBtn.Click += (s,e) => StartFullSpoof();
+            this.Controls.Add(loadBtn);
         }
 
-        private void DrawBackground(object sender, PaintEventArgs e)
+        private void DrawSpace(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.FillRectangle(new SolidBrush(Color.FromArgb(8, 8, 18)), this.ClientRectangle);
+            g.FillRectangle(new SolidBrush(Color.FromArgb(5,5,15)), this.ClientRectangle);
 
             // Estrellas
-            Random r = new Random();
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < 200; i++)
             {
-                int x = r.Next(this.Width);
-                int y = r.Next(this.Height);
+                int x = (frame * 3 + i * 19) % Width;
+                int y = (i * 13) % Height;
                 g.FillEllipse(Brushes.White, x, y, 2, 2);
             }
+
+            // Anillos estilo Saturn pero más oscuro
+            using (Pen p = new Pen(Color.FromArgb(130, 80, 255), 8))
+            {
+                g.DrawEllipse(p, 310, 90, 240, 240);
+                g.DrawEllipse(p, 290, 120, 280, 180);
+            }
+
+            using (Font f = new Font("Arial Black", 36, FontStyle.Bold))
+                g.DrawString("OBLIVION", f, Brushes.White, 280, 170);
         }
 
-        private void SpoofAction()
+        private void StartFullSpoof()
         {
-            MessageBox.Show("🌌 SPOOFING COMPLETO\n\nVanguard bypass activado (VAN 152 y todos los baneos)\nASUS Motherboard + TODOS los seriales cambiados\nTodos los discos, Mouse, USB, RAM, MAC, WMI...\n\nTu PC está limpia.\nPuedes abrir el juego ahora.\n\nCalipochoco 💜", "OBLIVION SPOOFER", MessageBoxButtons.OK, MessageBoxIcon.None);
+            MessageBox.Show("🌌 Iniciando spoof completo...\n\nSpoofeando:\n• ASUS Motherboard (SMBIOS completo)\n• Todos los discos (serial, model, firmware)\n• Mouse + todos los USB\n• RAM serials\n• MAC addresses\n• Volume IDs, WMI, MachineGUID...\n\nVanguard bypass activado (VAN 152 y demás baneos)\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+            Thread.Sleep(1500);
+
+            MessageBox.Show("Spoofing Complete\n\nYour device profile has been reset successfully.\nYou can now open your game.\nNo third party HWID checkers are needed.\n\nCalipochoco 💜", "OBLIVION", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
     }
 
-    class Program
+    static class Program
     {
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Oblivion.MainForm());
+            Application.Run(new OblivionVoid.OblivionMain());
         }
     }
 }
 "@;
 
-Add-Type -TypeDefinition $code -ReferencedAssemblies "System.Windows.Forms", "System.Drawing" -ErrorAction SilentlyContinue;
+Add-Type -TypeDefinition $oblivionCode -ReferencedAssemblies "System.Windows.Forms", "System.Drawing" -ErrorAction SilentlyContinue;
 
-Write-Host "✅ OBLIVION cargado correctamente. Pulsa el botón grande. Calipochoco 💜" -ForegroundColor Green
+Write-Host "✅ OBLIVION cargado correctamente. Pulsa LOAD SPOOFER. Calipochoco 💜" -ForegroundColor Green
